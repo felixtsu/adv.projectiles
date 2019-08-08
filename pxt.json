@@ -3,7 +3,6 @@
     "version": "0.0.0",
     "description": "Advance projectiles, playground for kids @cubicbird",
     "dependencies": {
-        "device": "*"
     },
     "files": [
         "README.md",
