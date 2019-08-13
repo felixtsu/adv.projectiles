@@ -4,8 +4,11 @@
 //% weight=100 color=#6699CC icon="\uf140"
 //% groups='["Actions"]'
 namespace hero {
-    export function init() {
-        _hero = new Hero()
+
+    let _heroes: Hero[] = []
+    export function init(): Hero {
+        let _hero = new Hero()
+        _heroes.push(_hero)
         info.setLife(3)
         info.showLife(true)
         info.setLifeImage(img`
@@ -29,21 +32,30 @@ namespace hero {
         info.onLifeZero(function () {
             game.over()
         })
+        return _hero
     }
 
+    enum ActionKind {
+        attack, Idle
+    }
+
+    export function update() {
+        for (let _hero of _heroes) {
+            _hero.update()
+        }
+    }
+
+
+    /*
     export function lostLife() {
         _hero.lostLife()
     }
 
-    export function update() {
-        _hero.update()
-    }
 
     export function nextWeaponSystem(): void {
         _hero.nextWeaponSystem()
-
     }
-
+*/
 
     /**
      * let the hero splash
@@ -56,11 +68,13 @@ namespace hero {
     //% inlineInputMode=inline
     //% weight=100
     //% group="Action"
+    /**
     export function attack(): void {
         _hero.attack();
     }
+    */
     export function getHeroPosition(): number[] {
-        return _hero.position()
+        return _heroes[Math.randomRange(0, 1)].position()
     }
 
     class Hero {
@@ -74,7 +88,6 @@ namespace hero {
             advprojectiles.ProjectileSystem.LightSaber, advprojectiles.ProjectileSystem.ExplosiveMine]
 
         private _currentWeaponSystem: number = 0;
-
 
         public constructor() {
             this._hero = sprites.create(img`
@@ -94,18 +107,17 @@ namespace hero {
                 . . . . . f e e f 4 5 5 f . . .
                 . . . . . . f f f f f f . . . .
                 . . . . . . . f f f . . . . . .
-            `, SpriteKind.Player)
+            `, cubicbird.SpriteKindLegacy.Player)
 
             this._hero.onOverlap((other: Sprite) => {
-                if (other.kind() == SpriteKind.Enemy
-                    || other.kind() == SpriteKind.EnemyProjectile) {
+                if (other.kind() == cubicbird.SpriteKindLegacy.Enemy
+                    || other.kind() == cubicbird.SpriteKindLegacy.EnemyProjectile) {
                     this.lostLife()
                     other.destroy()
                 }
             })
 
             this._hero.setPosition(20, 64)
-            controller.moveSprite(this._hero, 40, 40)
             this._hero.setFlag(SpriteFlag.StayInScreen, true)
 
             this.initAnimation()
@@ -113,6 +125,16 @@ namespace hero {
 
             this._bkg = scene.backgroundImage()
             this.drawWeaponSystem()
+        }
+
+        bindController(_controller: controller.Controller) {
+            _controller.moveSprite(this._hero, 40, 40)
+            _controller.A.onEvent(ControllerButtonEvent.Pressed, () => {
+                this.attack()
+            })
+            _controller.B.onEvent(ControllerButtonEvent.Pressed, () => {
+                this.nextWeaponSystem()
+            })
         }
 
         position(): number[] {
@@ -294,8 +316,5 @@ namespace hero {
         }
 
     }
-
-    let _hero: Hero = null;
-
 }
 

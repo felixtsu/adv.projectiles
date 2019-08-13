@@ -2,17 +2,19 @@
     "name": "adv.projectiles",
     "version": "0.0.0",
     "description": "Advance projectiles, playground for kids @cubicbird",
-    "dependencies": {
-    },
+    "dependencies": {},
     "files": [
         "README.md",
-	"hero.ts",
-	"enemy.ts",
-	"advprojectiles.ts",
-	"cubicbird.ts"
+        "hero.ts",
+        "enemy.ts",
+        "advprojectiles.ts",
+        "cubicbird.ts",
+        "main.ts"
     ],
     "testFiles": [
         "test.ts"
     ],
-    "public": false
+    "public": false,
+    "preferredEditor": "tsprj",
+    "installedVersion": "workspace:83932540-22dd-4d9c-cbf5-c58dac2a92fd"
 }

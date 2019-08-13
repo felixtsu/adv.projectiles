@@ -1,10 +1,19 @@
-// Add your code here
+/**
+* A enemy controller
+*/
+//% weight=100 color=#6699CC icon="\uf140"
+//% groups='["Actions"]'
 namespace enemy {
 
     export enum EnemyKind {
         Car,
         Ghost,
         TracingCar
+    }
+
+    enum ActionKind {
+        Aiming,
+        Attack
     }
 
     export function enemiesAttack() {
@@ -72,7 +81,7 @@ namespace enemy {
                 . . . . . . . . . . . . . . . . . . . . . . . .
                 . . . . . . . . . . . . . . . . . . . . . . . .
                 . . . . . . . . . . . . . . . . . . . . . . . .
-            `, SpriteKind.Enemy)
+            `, cubicbird.SpriteKindLegacy.Enemy)
             this._enemy.setPosition(160, Math.randomRange(10, 120))
             this._enemy.setVelocity(-30, 0)
             this.postConstruct()
@@ -81,7 +90,7 @@ namespace enemy {
         public attack(): Sprite[] {
             let result: Sprite[] = [];
             let projectile = sprites.createProjectileFromSprite(Ghost._projectileImage, this._enemy, -50, 0);
-            projectile.setKind(SpriteKind.EnemyProjectile)
+            projectile.setKind(cubicbird.SpriteKindLegacy.EnemyProjectile)
             return result;
         }
 
@@ -93,7 +102,7 @@ namespace enemy {
         private vx: number
         private vy: number
         private static aimingAnimation: animation.Animation
-        private aimingCycle:boolean
+        private aimingCycle: boolean
 
         static init() {
             if (TracingCar.aimingAnimation != undefined) {
@@ -179,7 +188,7 @@ namespace enemy {
                 . . . e f f f f f e e f f f f f
                 . . . . f f f f . . . . f f f .
                 . . . . . . . . . . . . . . . .
-            `, SpriteKind.Enemy)
+            `, cubicbird.SpriteKindLegacy.Enemy)
             this._enemy.setPosition(148, Math.randomRange(0, 80))
             this._enemy.setVelocity(0, 0)
             animation.attachAnimation(this._enemy, TracingCar.aimingAnimation)
@@ -240,7 +249,7 @@ namespace enemy {
                 . . . a f f f f f a a f f f f f
                 . . . . f f f f . . . . f f f .
                 . . . . . . . . . . . . . . . .
-            `, SpriteKind.Enemy)
+            `, cubicbird.SpriteKindLegacy.Enemy)
             this._enemy.setPosition(160, Math.randomRange(10, 120))
             this._enemy.setVelocity(0, 0)
             this._enemy.ax += -30
@@ -252,44 +261,40 @@ namespace enemy {
             let result: Sprite[] = []
             let projectile: Sprite = null
             projectile = sprites.createProjectileFromSprite(Car._projectileImage, this._enemy, -30, 0)
-            projectile.setKind(SpriteKind.EnemyProjectile);
+            projectile.setKind(cubicbird.SpriteKindLegacy.EnemyProjectile);
             result.push(projectile)
 
             projectile = sprites.createProjectileFromSprite(Car._projectileImage, this._enemy, -20, 20)
-            projectile.setKind(SpriteKind.EnemyProjectile);
+            projectile.setKind(cubicbird.SpriteKindLegacy.EnemyProjectile);
             result.push(projectile)
 
             projectile = sprites.createProjectileFromSprite(Car._projectileImage, this._enemy, 0, 30)
-            projectile.setKind(SpriteKind.EnemyProjectile);
+            projectile.setKind(cubicbird.SpriteKindLegacy.EnemyProjectile);
             result.push(projectile)
 
             projectile = sprites.createProjectileFromSprite(Car._projectileImage, this._enemy, -20, -20)
-            projectile.setKind(SpriteKind.EnemyProjectile);
+            projectile.setKind(cubicbird.SpriteKindLegacy.EnemyProjectile);
             result.push(projectile)
 
             projectile = sprites.createProjectileFromSprite(Car._projectileImage, this._enemy, 0, -30)
-            projectile.setKind(SpriteKind.EnemyProjectile);
+            projectile.setKind(cubicbird.SpriteKindLegacy.EnemyProjectile);
             result.push(projectile)
 
             return result;
         }
     }
 
-    export function spawnNewEnemy(): EnemyKind {
+    export function spawnNewEnemy(): Enemy {
 
-        console.log("about to spawn new enemy")
+        let enemy = null
         if (Math.percentChance(60)) {
-            console.log("about to spawn new Ghost")
-            enemies.push(new Ghost())
-            return EnemyKind.Ghost
+            enemy = new Ghost()
         } else if (Math.percentChance(50)) {
-            console.log("about to spawn new Car")
-            enemies.push(new Car())
-            return EnemyKind.Car
+            enemy = new Car()
         } else {
-            console.log("about to spawn new Tracing Car")
-            enemies.push(new TracingCar())
-            return EnemyKind.TracingCar
+            enemy = new TracingCar()
         }
+        enemies.push(enemy)
+        return enemy
     }
 }

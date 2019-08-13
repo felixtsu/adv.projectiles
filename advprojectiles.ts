@@ -63,7 +63,7 @@ namespace advprojectiles {
             . . 1 e e e . .
         `
 
-        static BABY_PROJECTILE_IMAGE : Image = img`
+        static BABY_PROJECTILE_IMAGE: Image = img`
             44
             44
         `
@@ -73,27 +73,27 @@ namespace advprojectiles {
             this._sprite = sprites.createProjectileFromSprite(
                 ExplosiveProjectile.EXPLOSIVE_PROJECTILE_IMAGE, firingSprite, vx, vy)
             if (projectileType == ProjectileType.Hostile) {
-                this._sprite.setKind(SpriteKind.EnemyProjectile)
+                this._sprite.setKind(cubicbird.SpriteKindLegacy.EnemyProjectile)
             } else {
-                this._sprite.setKind(SpriteKind.PlayerProjectile)
+                this._sprite.setKind(cubicbird.SpriteKindLegacy.PlayerProjectile)
             }
             this._sprite.lifespan = 1500
             this._sprite.onDestroyed(function () {
-                sprites.createProjectileFromSprite(ExplosiveProjectile.BABY_PROJECTILE_IMAGE, 
-                this._sprite, ExplosiveProjectile.EXPLOSIVE_MINE_PROJECTILE_SPEED,
-                 ExplosiveProjectile.EXPLOSIVE_MINE_PROJECTILE_SPEED)
-
-                sprites.createProjectileFromSprite(ExplosiveProjectile.BABY_PROJECTILE_IMAGE, 
-                 this._sprite, 0 - ExplosiveProjectile.EXPLOSIVE_MINE_PROJECTILE_SPEED,
-                 0 - ExplosiveProjectile.EXPLOSIVE_MINE_PROJECTILE_SPEED)
+                sprites.createProjectileFromSprite(ExplosiveProjectile.BABY_PROJECTILE_IMAGE,
+                    this._sprite, ExplosiveProjectile.EXPLOSIVE_MINE_PROJECTILE_SPEED,
+                    ExplosiveProjectile.EXPLOSIVE_MINE_PROJECTILE_SPEED)
 
                 sprites.createProjectileFromSprite(ExplosiveProjectile.BABY_PROJECTILE_IMAGE,
-                 this._sprite, 0 - ExplosiveProjectile.EXPLOSIVE_MINE_PROJECTILE_SPEED,
-                 ExplosiveProjectile.EXPLOSIVE_MINE_PROJECTILE_SPEED)
+                    this._sprite, 0 - ExplosiveProjectile.EXPLOSIVE_MINE_PROJECTILE_SPEED,
+                    0 - ExplosiveProjectile.EXPLOSIVE_MINE_PROJECTILE_SPEED)
 
                 sprites.createProjectileFromSprite(ExplosiveProjectile.BABY_PROJECTILE_IMAGE,
-                this._sprite, ExplosiveProjectile.EXPLOSIVE_MINE_PROJECTILE_SPEED,
-                0 - ExplosiveProjectile.EXPLOSIVE_MINE_PROJECTILE_SPEED)
+                    this._sprite, 0 - ExplosiveProjectile.EXPLOSIVE_MINE_PROJECTILE_SPEED,
+                    ExplosiveProjectile.EXPLOSIVE_MINE_PROJECTILE_SPEED)
+
+                sprites.createProjectileFromSprite(ExplosiveProjectile.BABY_PROJECTILE_IMAGE,
+                    this._sprite, ExplosiveProjectile.EXPLOSIVE_MINE_PROJECTILE_SPEED,
+                    0 - ExplosiveProjectile.EXPLOSIVE_MINE_PROJECTILE_SPEED)
             })
         }
 
@@ -118,6 +118,7 @@ namespace advprojectiles {
         public constructor(firingSprite: Sprite, projectileType: ProjectileType) {
             this._sprite = sprites.createProjectileFromSprite(LightSaberProjectile.LIGHT_SABER_IMAGE,
                 firingSprite, LightSaberProjectile.LIGHT_SABER_SPEED, 0)
+            this._sprite.setKind(cubicbird.SpriteKindLegacy.PlayerProjectile)
         }
     }
 
