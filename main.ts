@@ -1,1 +1,1 @@
- 
+cubicbird.startNewGame()
